@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 
 app.post("/api/transaction", async (req, res) => {
   try {
-    // await dbConnect();
+    await dbConnect();
 
     const { amount, date, description } = req.body;
     const transaction = await Transaction.create({
@@ -56,7 +56,7 @@ app.get("/api/transactions", async (req, res) => {
 
 app.delete("/api/transaction/:id", async (req, res) => {
   try {
-    // await dbConnect();
+    await dbConnect();
 
     const { id: transactionId } = req.params;
     const response = await Transaction.findByIdAndDelete(transactionId);
