@@ -17,10 +17,10 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
-await dbConnect();
-
 app.post("/api/transaction", async (req, res) => {
   try {
+    // await dbConnect();
+
     const { amount, date, description } = req.body;
     const transaction = await Transaction.create({
       amount,
@@ -41,6 +41,8 @@ app.post("/api/transaction", async (req, res) => {
 
 app.get("/api/transactions", async (req, res) => {
   try {
+    await dbConnect();
+
     const transactions = await Transaction.find({}).sort({ createdAt: -1 });
     // console.log(transactions);  array of docs
 
@@ -54,6 +56,8 @@ app.get("/api/transactions", async (req, res) => {
 
 app.delete("/api/transaction/:id", async (req, res) => {
   try {
+    // await dbConnect();
+
     const { id: transactionId } = req.params;
     const response = await Transaction.findByIdAndDelete(transactionId);
     if (!response) throw new Error("Transaction not found");
