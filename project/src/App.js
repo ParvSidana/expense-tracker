@@ -25,7 +25,9 @@ function App() {
 
   const fetchTransactions = async () => {
     try {
-      const res = await fetch(`/api/transactions`); //get req
+      const res = await fetch(
+        `${process.env.REACT_APP_APP_URL}/api/transactions`
+      ); //get req
 
       if (!res) throw new Error("Cant fetch transactions");
       const data = await res.json();
@@ -33,6 +35,7 @@ function App() {
       return data;
     } catch (error) {
       console.error("Error while fetching transactions", error);
+      return [];
     }
   };
 
@@ -46,13 +49,16 @@ function App() {
 
     // console.log(process.env.REACT_APP_APP_URL);
     try {
-      const res = await fetch(`/api/transaction`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount, date, description }),
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_APP_URL}/api/transaction`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount, date, description }),
+        }
+      );
       console.log(res);
 
       if (!res.ok) {
@@ -76,12 +82,15 @@ function App() {
   const deleteTransaction = async (transactionId) => {
     setLoadingDel(true);
     try {
-      const res = await fetch(`/api/transaction/${transactionId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_APP_URL}/api/transaction/${transactionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       // console.log("before setT in deleTran", transactions);
 
       if (!res.ok) {
